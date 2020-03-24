@@ -9,7 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, World!")
+        List(1...42, id: \.self){ index in
+            index%7 == 0 ? Text("Número \(index)").fontWeight(.bold) : Text("Listas tabuladas con SwiftUI")
+        }
     }
 }
 
