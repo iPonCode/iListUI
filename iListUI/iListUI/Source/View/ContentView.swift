@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    var someItems = AnItemsFactory.someItems
+    
     var body: some View {
-        List(1...42, id: \.self){ index in
-            index%7 == 0 ? Text("Número \(index)").fontWeight(.bold) : Text("Listas tabuladas con SwiftUI")
+        List(someItems){ item in
+            Text("UUID: \(item.id)").padding()
         }
     }
 }
