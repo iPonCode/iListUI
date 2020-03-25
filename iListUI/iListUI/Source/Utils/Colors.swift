@@ -12,6 +12,7 @@ extension UIColor {
     struct AppColor {
         
         static let highlighted = UIColor.systemPink
+        static let barButton = UIColor.systemBlue
     }
 
 }

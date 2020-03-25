@@ -22,16 +22,19 @@ struct ListView: View {
         let appearance = UINavigationBarAppearance()
         appearance.largeTitleTextAttributes = [
             .font: UIFont.AppFont.largeTitle,
-            .foregroundColor: UIColor.systemPink]
+            .foregroundColor: UIColor.AppColor.highlighted]
         appearance.titleTextAttributes = [
             .font: UIFont.AppFont.compactTitle,
             .foregroundColor: UIColor.AppColor.highlighted]
         
         // back button
         appearance.setBackIndicatorImage(
-            UIImage(systemName: "arrow.left.square.fill"), transitionMaskImage:
-            UIImage(systemName: "arrow.left.square"))
-        //appearance.configureWithTransparentBackground()
+            UIImage(systemName: "rectangle.grid.1x2.fill"), transitionMaskImage:
+            UIImage(systemName: "rectangle.grid.1x2"))
+        appearance.backButtonAppearance.normal.titleTextAttributes = [
+            .font: UIFont.AppFont.barButton,
+            .foregroundColor: UIColor.AppColor.barButton]
+        appearance.configureWithTransparentBackground()
         
         // assign appearance
         UINavigationBar.appearance().standardAppearance = appearance
