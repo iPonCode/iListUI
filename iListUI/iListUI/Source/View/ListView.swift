@@ -63,7 +63,7 @@ struct ListView: View {
                 Button(action: {
                     self.showOptions = true
                 }, label: {
-                    Image(systemName: "pencil.and.ellipsis.rectangle").font(.title)
+                    Image(systemName: "table.badge.more.fill").font(.title)
             })
             )// this modificator is for present Options in modal view and the binded var is necessary to close it
             .sheet(isPresented: $showOptions){

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct OptionsView: View {
 
+    @Environment(\.presentationMode) var presentationMode
+
     let optionsTitle = "Opciones"
 
     var body: some View {
@@ -28,6 +30,25 @@ struct OptionsView: View {
             }
         .navigationBarTitle(optionsTitle)
         //.navigationBarTitle(Text(optionsTitle), displayMode: .inline)
+
+        .navigationBarItems(
+            leading: Button(action: { // left button
+                self.presentationMode.wrappedValue.dismiss()
+            }, label: {
+                Image(systemName:"rectangle.dock")
+                    .font(.title)
+            }),
+            trailing: Button(action: { // right button
+
+                // TODO: Save values, update EnvironmentObject
+                self.presentationMode.wrappedValue.dismiss() // close view
+                
+            }, label: {
+                Image(systemName: "rectangle.fill.badge.checkmark")
+                    .font(Font(UIFont.AppFont.compactTitle))
+            })
+            )
+            
         }
     }
 }
