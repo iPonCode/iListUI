@@ -149,7 +149,7 @@ struct AnItemsFactory {
                     favourite: Bool.random())
     ]
     
-    private enum RandomDescription: Int {
+    /*private*/ enum RandomDescription: Int {
         
         case desc0 = 0
         case desc1 = 1

@@ -15,19 +15,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iListUI-repository-open-graph" translatesAutoresizingMaskIntoConstraints="NO" id="lNf-oy-nKg">
-                                <rect key="frame" x="-250" y="289.5" width="914" height="317"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchScreenLogo" translatesAutoresizingMaskIntoConstraints="NO" id="M1B-vg-heo">
+                                <rect key="frame" x="4" y="245" width="406" height="406"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="lNf-oy-nKg" secondAttribute="height" multiplier="614:213" id="qaW-YG-cVD"/>
+                                    <constraint firstAttribute="width" secondItem="M1B-vg-heo" secondAttribute="height" multiplier="1:1" id="6TC-2o-Sad"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="lNf-oy-nKg" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="3je-Vr-m7W"/>
-                            <constraint firstItem="lNf-oy-nKg" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="MjK-dD-V2s"/>
-                            <constraint firstAttribute="trailing" secondItem="lNf-oy-nKg" secondAttribute="trailing" constant="-250" id="eD7-Lf-8yq"/>
-                            <constraint firstItem="lNf-oy-nKg" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" constant="-250" id="kH0-OQ-C8u"/>
+                            <constraint firstItem="M1B-vg-heo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="4" id="4PT-Mg-iOf"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="M1B-vg-heo" secondAttribute="trailing" constant="4" id="VV2-t5-QDh"/>
+                            <constraint firstItem="M1B-vg-heo" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="tg7-s9-rCb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -38,6 +37,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="iListUI-repository-open-graph" width="426.66665649414062" height="213.33332824707031"/>
+        <image name="LaunchScreenLogo" width="640" height="640"/>
     </resources>
 </document>
