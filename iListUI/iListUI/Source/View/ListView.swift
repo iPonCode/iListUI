@@ -25,6 +25,12 @@ struct ListView: View {
             .font: UIFont.AppFont.compactTitle,
             .foregroundColor: UIColor.AppColor.highlighted]
         
+        // back button
+        appearance.setBackIndicatorImage(
+            UIImage(systemName: "arrow.left.square.fill"), transitionMaskImage:
+            UIImage(systemName: "arrow.left.square"))
+        //appearance.configureWithTransparentBackground()
+        
         // assign appearance
         UINavigationBar.appearance().standardAppearance = appearance
         UINavigationBar.appearance().compactAppearance = appearance
@@ -37,9 +43,19 @@ struct ListView: View {
             
             List(someItems){ item in
                 
-                Text("UUID: \(item.id)").padding()
+                ZStack {
+                    Text("UUID: \(item.id)").padding()
+                    
+                    // this is the only way (right now) to remove or do not show the
+                    // disclouser indicator in the row, first renders the content and
+                    // after this render over an empty view, needed a ZStack to do this
+                    NavigationLink(destination: ItemDetailView(item: item)) {
+                        EmptyView()
+                    }//navigation link
+                }
                 
-            }// navigation title goes in the close bracket of the last component inside the NavigationView
+            }
+            // navigation title goes in the close bracket of the last component inside the NavigationView
             .navigationBarTitle(listTitle)
         }
         
