@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ListView: View {
     
+    @State var showOptions: Bool = false
+    
     var someItems = AnItemsFactory.someItems
     let listTitle = "Items super chulos!"
     
@@ -45,7 +47,7 @@ struct ListView: View {
                 
                 ZStack {
                     Text("UUID: \(item.id)").padding()
-                    
+
                     // this is the only way (right now) to remove or do not show the
                     // disclouser indicator in the row, first renders the content and
                     // after this render over an empty view, needed a ZStack to do this
@@ -54,10 +56,21 @@ struct ListView: View {
                     }//navigation link
                 }
                 
-            }
-            // navigation title goes in the close bracket of the last component inside the NavigationView
+            }//list
+            // the navigation modificators goes in the close bracket of the last component inside the NavigationView
             .navigationBarTitle(listTitle)
-        }
+            .navigationBarItems(trailing:
+                Button(action: {
+                    self.showOptions = true
+                }, label: {
+                    Image(systemName: "pencil.and.ellipsis.rectangle").font(.title)
+            })
+            )// this modificator is for present Options in modal view and the binded var is necessary to close it
+            .sheet(isPresented: $showOptions){
+                OptionsView()
+            }
+            
+        }//navigation view
         
     }
 }

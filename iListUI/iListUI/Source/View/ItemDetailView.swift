@@ -11,6 +11,8 @@ struct ItemDetailView: View {
 
     var item: AnItem
 
+    let detailsTitle = "Detalle"
+
     var body: some View {
         
                 ScrollView {
@@ -59,7 +61,7 @@ struct ItemDetailView: View {
                         Spacer() // to push all the content up
                     }
                 }
-                .navigationBarTitle(Text("Detalle"), displayMode: .inline)
+                .navigationBarTitle(Text(detailsTitle), displayMode: .inline)
     }
 }
 
