@@ -50,6 +50,32 @@ struct ListView: View {
                 
                 ZStack {
                     Text("UUID: \(item.id)").padding()
+                        .contextMenu{
+                            Button(action: {
+                                self.toggleWatched(item: item)
+                            }, label: {
+                                HStack{
+                                    Text(item.watched ? "Marcar como no visto" : "Visto")
+                                    Image(systemName: item.watched ? "eye.slash" : "eye")
+                                }
+                            })
+                        Button(action: {
+                            self.toggleFavourite(item: item)
+                        }, label: {
+                            HStack{
+                                Text(item.favourite ? "Marcar como no favorito" : "Favorito")
+                                Image(systemName: item.favourite ? "star.slash" : "star.fill")
+                            }
+                        })
+                        Button(action: {
+                            self.removeItem(item: item)
+                        }, label: {
+                            HStack{
+                                Text("Eliminar")
+                                Image(systemName: "trash")
+                            }
+                        })
+                    }
 
                     // this is the only way (right now) to remove or do not show the
                     // disclouser indicator in the row, first renders the content and
@@ -76,6 +102,20 @@ struct ListView: View {
         }//navigation view
         
     }
+    
+    func toggleFavourite(item: AnItem) {
+        print("Favourite tapped")
+    }
+
+    func toggleWatched(item: AnItem) {
+        print("Watched tapped")
+    }
+
+    func removeItem(item: AnItem) {
+        print("Remove tapped")
+    }
+
+
 }
 
 struct ContentView_Previews: PreviewProvider {

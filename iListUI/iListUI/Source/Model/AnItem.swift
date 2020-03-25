@@ -17,7 +17,7 @@ struct AnItem: Identifiable {
     var description: String
     var type: String
     var popularity: Int
-    var featured: Bool = false
+    var watched: Bool = false
     var favourite: Bool = false
     
 }
