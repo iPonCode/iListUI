@@ -19,5 +19,6 @@ struct AnItem: Identifiable {
     var popularity: Int
     var watched: Bool = false
     var favourite: Bool = false
+    var featured: Bool = false
     
 }

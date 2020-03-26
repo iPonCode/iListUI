@@ -23,18 +23,18 @@ struct ListView: View {
         let appearance = UINavigationBarAppearance()
         appearance.largeTitleTextAttributes = [
             .font: UIFont.AppFont.largeTitle,
-            .foregroundColor: UIColor.AppColor.highlighted]
+            .foregroundColor: UIColor.barTitles]
         appearance.titleTextAttributes = [
             .font: UIFont.AppFont.compactTitle,
-            .foregroundColor: UIColor.AppColor.highlighted]
+            .foregroundColor: UIColor.barTitles]
         
         // back button
         appearance.setBackIndicatorImage(
-            UIImage(systemName: "rectangle.grid.1x2.fill"), transitionMaskImage:
-            UIImage(systemName: "rectangle.grid.1x2"))
+            UIImage(systemName: AppConfig.barBack), transitionMaskImage:
+            UIImage(systemName: AppConfig.barBackTrans))
         appearance.backButtonAppearance.normal.titleTextAttributes = [
             .font: UIFont.AppFont.barButton,
-            .foregroundColor: UIColor.AppColor.barButton]
+            .foregroundColor: UIColor.barButton]
         //appearance.configureWithTransparentBackground()
         
         // assign appearance
@@ -53,35 +53,52 @@ struct ListView: View {
                     
                     ZStack {
                         
-                        Text("UUID: \(item.id)").padding()
-                            .contextMenu{
+                        VStack {
 
-                                Button(action: { // watched
-                                    self.toggleWatched(item: item)
-                                }, label: {
-                                    HStack{
-                                        Text(item.watched ? "Marcar como no visto" : "Visto")
-                                        Image(systemName: item.watched ? "eye.slash" : "eye")
-                                    }
-                                })
-
-                                Button(action: { // favourite
-                                    self.toggleFavourite(item: item)
-                                }, label: {
-                                    HStack{
-                                        Text(item.favourite ? "Quitar favorito" : "Favorito")
-                                        Image(systemName: item.favourite ? "star.slash" : "star.fill")
-                                    }
-                                })
+                            if item.featured {
+                                CellViewTypeTwo(anItem: item)
                                 
-                                Button(action: { // remove
-                                    self.removeItem(item: item)
-                                }, label: {
-                                    HStack{
-                                        Text("Eliminar")
-                                        Image(systemName: "trash")
-                                    }
-                                })
+                            } else {
+                                CellViewTypeOne(anItem: item)
+                            }
+                        }
+                        .contextMenu{
+                            
+                            Button(action: { // watched
+                                self.toggleWatched(item: item)
+                            }, label: {
+                                HStack{
+                                    Text(item.watched ? "Marcar como no visto" : "Visto")
+                                    Image(systemName: item.watched ? AppConfig.menuUnWatch : AppConfig.menuWatch)
+                                }
+                            })
+                            
+                            Button(action: { // favourite
+                                self.toggleFavourite(item: item)
+                            }, label: {
+                                HStack{
+                                    Text(item.favourite ? "Quitar favorito" : "Favorito")
+                                    Image(systemName: item.favourite ? AppConfig.menuUnFav : AppConfig.menuFav)
+                                }
+                            })
+                            
+                            Button(action: { // feature
+                                self.toggleFeatured(item: item)
+                            }, label: {
+                                HStack{
+                                    Text(item.favourite ? "No destacar" : "Destacar")
+                                    Image(systemName: item.featured ? AppConfig.menuUnFeat : AppConfig.menuFeat)
+                                }
+                            })
+                            
+                            Button(action: { // remove
+                                self.removeItem(item: item)
+                            }, label: {
+                                HStack{
+                                    Text("Eliminar")
+                                    Image(systemName: AppConfig.menuRemove)
+                                }
+                            })
                         }
                         //.onTapGesture {
                             // TODO: update the State var with selected item
@@ -105,7 +122,7 @@ struct ListView: View {
                 Button(action: {
                     self.showOptions = true
                 }, label: {
-                    Image(systemName: "table.badge.more.fill").font(.title)
+                    Image(systemName: AppConfig.barShowOptions).font(.title)
             })
             )// this modificator is for present Options in modal view and the binded var is necessary to close it
             .sheet(isPresented: $showOptions){
@@ -124,6 +141,10 @@ struct ListView: View {
         print("Watched tapped")
     }
 
+    func toggleFeatured(item: AnItem) {
+        print("Featured tapped")
+    }
+
     func removeItem(item: AnItem) { // remove an item
         someItems.removeAll(where: { anItem in
             anItem.id == item.id
@@ -139,6 +160,120 @@ struct ListView: View {
         print("Remove swiped")
     }
 }
+
+// MARK: - Cell Views
+
+struct CellViewTypeOne: View {
+    
+    var anItem: AnItem
+    
+    var body: some View {
+        HStack {
+            Image(anItem.image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 80, height: 80)
+                .clipped()
+                .cornerRadius(40) // half of widht to circle
+
+            VStack(alignment: .leading, spacing: 1){
+                Text(anItem.author)
+                    .font(.system(.headline, design: .rounded))
+                    .foregroundColor(.highlighted)
+                    .fontWeight(.bold)
+                    .lineLimit(1)
+                HStack {
+                    VStack {
+                        Text(anItem.title)
+                            .font(.system(.body, design: .rounded))
+                            .fontWeight(.regular)
+                            .lineLimit(3)
+                        Spacer()
+                    }
+                    
+                    // needed to push to the left description and image and icons view to the right
+                    Spacer().layoutPriority(-10)
+                    
+                    VStack(alignment: .trailing, spacing: 1) {
+                        Spacer() // push icons view down
+                        HStack {
+                            if anItem.favourite {
+                                Image(systemName: AppConfig.cellFav)
+                                    .foregroundColor(.star)
+                                .padding(.bottom, 4)
+                            }
+                            if anItem.watched {
+                                Image(systemName: AppConfig.cellWatched)
+                                    .foregroundColor(.eye)
+                                .padding(.bottom, 4)
+                            }
+                        }//hstack
+                        
+                        Text(String(anItem.type))
+                            .font(.system(.subheadline, design: .rounded)).bold()
+                            .padding(.vertical, 1)
+                        
+                        Text(String(repeating: AppConfig.popularityChar, count: anItem.popularity))
+                            .font(.subheadline)//.fontWeight(.black)
+                            .padding(.top, 1)
+                        Spacer() // push icons view up to center vertically
+                    }//vstack
+                    .foregroundColor(.secondary)
+                    
+                }//hstack
+            }//vstack
+        }//hstack
+        
+    }
+}
+
+struct CellViewTypeTwo: View {
+    
+    var anItem: AnItem
+    
+    var body: some View {
+        
+        ZStack {
+            Image(anItem.image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .cornerRadius(15)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .foregroundColor(.gray)
+                        .opacity(0.55)
+            )
+
+            VStack(alignment: .leading, spacing: 1){
+                Text(anItem.author)
+                    .font(.system(.title, design: .rounded))
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+
+                Text(anItem.title)
+                    .font(.system(.headline, design: .rounded))
+                    .fontWeight(.regular)
+                    .foregroundColor(.white)
+                
+                Spacer()
+                HStack(alignment: .center, spacing: 5) {
+                    HStack {
+                        if anItem.favourite  { Image(systemName: AppConfig.cellFav) }
+                        if anItem.watched { Image(systemName: AppConfig.cellWatched) }
+                    }
+                    Spacer()
+                    Text(String(repeating: "", count: anItem.popularity))
+                    Text(String("| " + anItem.type))
+                }
+                .font(.system(.headline, design: .rounded))
+                .foregroundColor(.white)//(Color(.systemPink))
+            }//vstack
+            .padding()
+        }//zstack
+    }
+}
+
+// MARK: - Preview
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
