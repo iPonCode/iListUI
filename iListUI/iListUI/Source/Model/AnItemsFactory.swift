@@ -16,7 +16,7 @@ struct AnItemsFactory {
                     title: "Ingeniería mecánica para pilotos incapacitados por alcoholemia",
                     description: RandomDescription(Int.random(in: 0...3)).description,
                     type: "tipoD",
-                    popularity: 2,
+                    popularity: 5,
                     watched: true,
                     favourite: true),
         AnItem(image: "imagen08",

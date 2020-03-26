@@ -6,13 +6,25 @@
 //
 
 import UIKit
+import SwiftUI
+
+// MARK: - Swift Colors
 
 extension UIColor {
     
-    struct AppColor {
-        
-        static let highlighted = UIColor.systemPink
-        static let barButton = UIColor.systemBlue
-    }
+    static let highlighted = UIColor.systemPink
+    static let barButton = UIColor.systemBlue
+    static let barTitles = UIColor.systemBlue
 
+}
+
+// MARK: - SwiftUI Colors
+
+extension Color {
+
+    static let highlighted = Color.pink
+    static let barButton = Color.blue
+
+    static let star = Color.yellow
+    static let eye = Color.purple
 }

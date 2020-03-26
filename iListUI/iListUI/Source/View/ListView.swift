@@ -23,10 +23,10 @@ struct ListView: View {
         let appearance = UINavigationBarAppearance()
         appearance.largeTitleTextAttributes = [
             .font: UIFont.AppFont.largeTitle,
-            .foregroundColor: UIColor.AppColor.highlighted]
+            .foregroundColor: UIColor.barTitles]
         appearance.titleTextAttributes = [
             .font: UIFont.AppFont.compactTitle,
-            .foregroundColor: UIColor.AppColor.highlighted]
+            .foregroundColor: UIColor.barTitles]
         
         // back button
         appearance.setBackIndicatorImage(
@@ -34,7 +34,7 @@ struct ListView: View {
             UIImage(systemName: "rectangle.grid.1x2"))
         appearance.backButtonAppearance.normal.titleTextAttributes = [
             .font: UIFont.AppFont.barButton,
-            .foregroundColor: UIColor.AppColor.barButton]
+            .foregroundColor: UIColor.barButton]
         //appearance.configureWithTransparentBackground()
         
         // assign appearance
@@ -53,7 +53,7 @@ struct ListView: View {
                     
                     ZStack {
                         
-                        Text("UUID: \(item.id)").padding()
+                        CellViewTypeOne(anItem: item)
                             .contextMenu{
 
                                 Button(action: { // watched
@@ -139,6 +139,75 @@ struct ListView: View {
         print("Remove swiped")
     }
 }
+
+// MARK: - Cell Views
+
+struct CellViewTypeOne: View {
+    
+    var anItem: AnItem
+    
+    var body: some View {
+        HStack {
+            Image(anItem.image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 80, height: 80)
+                .clipped()
+                .cornerRadius(40) // half of widht to circle
+
+            VStack(alignment: .leading, spacing: 1){
+                Text(anItem.author)
+                    .font(.system(.headline, design: .rounded))
+                    .foregroundColor(.highlighted)
+                    .fontWeight(.bold)
+                    .lineLimit(1)
+                HStack {
+                    VStack {
+                        Text(anItem.title)
+                            .font(.system(.body, design: .rounded))
+                            .fontWeight(.regular)
+                            .lineLimit(3)
+                        Spacer()
+                    }
+                    
+                    // needed to push to the left description and image and icons view to the right
+                    Spacer().layoutPriority(-10)
+                    
+                    VStack(alignment: .trailing, spacing: 1) {
+                        Spacer() // push icons view down
+                        HStack {
+                            if anItem.favourite {
+                                Image(systemName: "star.fill")
+                                    .foregroundColor(.star)
+                                .padding(.bottom, 4)
+                            }
+                            if anItem.watched {
+                                Image(systemName: "eye.fill")
+                                    .foregroundColor(.eye)
+                                .padding(.bottom, 4)
+                            }
+                        }//hstack
+                        
+                        Text(String(anItem.type))
+                            .font(.system(.subheadline, design: .rounded)).bold()
+                            .padding(.vertical, 1)
+                        
+                        Text(String(repeating: "", count: anItem.popularity))
+                            .font(.subheadline)//.fontWeight(.black)
+                            .padding(.top, 1)
+                        Spacer() // push icons view up to center vertically
+                    }//vstack
+                    .foregroundColor(.secondary)
+                    
+                }//hstack
+            }//vstack
+        }//hstack
+        
+    }
+}
+
+
+// MARK: - Preview
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
