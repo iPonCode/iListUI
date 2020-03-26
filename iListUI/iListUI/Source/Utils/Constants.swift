@@ -28,7 +28,9 @@ struct AppConfig {
     static let menuWatch = "eye"
     static let menuUnWatch = "eye.slash"
     static let menuRemove = "trash"
-    
+    static let menuFeat = "rectangle.expand.vertical"
+    static let menuUnFeat = "rectangle.compress.vertical"
+
     // Cell icons
     static let cellFav = "star.fill"
     static let cellWatched = "eye.fill"

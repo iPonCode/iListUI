@@ -82,6 +82,15 @@ struct ListView: View {
                                 }
                             })
                             
+                            Button(action: { // feature
+                                self.toggleFeatured(item: item)
+                            }, label: {
+                                HStack{
+                                    Text(item.favourite ? "No destacar" : "Destacar")
+                                    Image(systemName: item.featured ? AppConfig.menuUnFeat : AppConfig.menuFeat)
+                                }
+                            })
+                            
                             Button(action: { // remove
                                 self.removeItem(item: item)
                             }, label: {
@@ -130,6 +139,10 @@ struct ListView: View {
 
     func toggleWatched(item: AnItem) {
         print("Watched tapped")
+    }
+
+    func toggleFeatured(item: AnItem) {
+        print("Featured tapped")
     }
 
     func removeItem(item: AnItem) { // remove an item
