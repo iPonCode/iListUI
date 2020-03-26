@@ -35,7 +35,7 @@ struct ListView: View {
         appearance.backButtonAppearance.normal.titleTextAttributes = [
             .font: UIFont.AppFont.barButton,
             .foregroundColor: UIColor.AppColor.barButton]
-        appearance.configureWithTransparentBackground()
+        //appearance.configureWithTransparentBackground()
         
         // assign appearance
         UINavigationBar.appearance().standardAppearance = appearance
@@ -83,9 +83,9 @@ struct ListView: View {
                                     }
                                 })
                         }
-                        .onTapGesture {
+                        //.onTapGesture {
                             // TODO: update the State var with selected item
-                        }
+                        //}
 
                         // this is the only way (right now) to remove or do not show the
                         // disclouser indicator in the row, first renders the content and
