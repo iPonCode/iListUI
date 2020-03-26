@@ -11,7 +11,7 @@ struct ItemDetailView: View {
 
     var item: AnItem
 
-    let detailsTitle = "Detalle"
+    let detailsTitle = "Más detalles"
 
     var body: some View {
         
@@ -25,27 +25,28 @@ struct ItemDetailView: View {
                             Text(item.type)
                                 .font(.system(.title, design: .rounded))
                                 .fontWeight(.bold)
-                                .padding()
 
                             Text(String(item.popularity))
                                 .font(.system(.title, design: .rounded))
                                 .fontWeight(.bold)
-                                .padding()
                             
+                            Text(String(item.featured))
+                                .font(.system(.title, design: .rounded))
+                                .fontWeight(.bold)
+
                             Text(String(item.watched))
                                 .font(.system(.title, design: .rounded))
                                 .fontWeight(.bold)
-                                .padding()
 
                             Text(String(item.favourite))
                                 .font(.system(.title, design: .rounded))
                                 .fontWeight(.bold)
-                                .padding()
                         }
+                        .padding()
 
                         Text(item.author)
                             .font(.system(.largeTitle, design: .rounded))
-                            .foregroundColor(.pink)
+                            .foregroundColor(.highlighted)
                             .fontWeight(.black)
                             .padding()
 
