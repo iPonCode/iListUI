@@ -55,7 +55,7 @@ struct ListView: View {
                         
                         VStack {
 
-                            if Bool.random() {
+                            if item.featured {
                                 CellViewTypeTwo(anItem: item)
                                 
                             } else {
