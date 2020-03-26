@@ -30,8 +30,8 @@ struct ListView: View {
         
         // back button
         appearance.setBackIndicatorImage(
-            UIImage(systemName: "rectangle.grid.1x2.fill"), transitionMaskImage:
-            UIImage(systemName: "rectangle.grid.1x2"))
+            UIImage(systemName: AppConfig.barBack), transitionMaskImage:
+            UIImage(systemName: AppConfig.barBackTrans))
         appearance.backButtonAppearance.normal.titleTextAttributes = [
             .font: UIFont.AppFont.barButton,
             .foregroundColor: UIColor.barButton]
@@ -53,35 +53,43 @@ struct ListView: View {
                     
                     ZStack {
                         
-                        CellViewTypeOne(anItem: item)
-                            .contextMenu{
+                        VStack {
 
-                                Button(action: { // watched
-                                    self.toggleWatched(item: item)
-                                }, label: {
-                                    HStack{
-                                        Text(item.watched ? "Marcar como no visto" : "Visto")
-                                        Image(systemName: item.watched ? "eye.slash" : "eye")
-                                    }
-                                })
-
-                                Button(action: { // favourite
-                                    self.toggleFavourite(item: item)
-                                }, label: {
-                                    HStack{
-                                        Text(item.favourite ? "Quitar favorito" : "Favorito")
-                                        Image(systemName: item.favourite ? "star.slash" : "star.fill")
-                                    }
-                                })
+                            if Bool.random() {
+                                CellViewTypeTwo(anItem: item)
                                 
-                                Button(action: { // remove
-                                    self.removeItem(item: item)
-                                }, label: {
-                                    HStack{
-                                        Text("Eliminar")
-                                        Image(systemName: "trash")
-                                    }
-                                })
+                            } else {
+                                CellViewTypeOne(anItem: item)
+                            }
+                        }
+                        .contextMenu{
+                            
+                            Button(action: { // watched
+                                self.toggleWatched(item: item)
+                            }, label: {
+                                HStack{
+                                    Text(item.watched ? "Marcar como no visto" : "Visto")
+                                    Image(systemName: item.watched ? AppConfig.menuUnWatch : AppConfig.menuWatch)
+                                }
+                            })
+                            
+                            Button(action: { // favourite
+                                self.toggleFavourite(item: item)
+                            }, label: {
+                                HStack{
+                                    Text(item.favourite ? "Quitar favorito" : "Favorito")
+                                    Image(systemName: item.favourite ? AppConfig.menuUnFav : AppConfig.menuFav)
+                                }
+                            })
+                            
+                            Button(action: { // remove
+                                self.removeItem(item: item)
+                            }, label: {
+                                HStack{
+                                    Text("Eliminar")
+                                    Image(systemName: AppConfig.menuRemove)
+                                }
+                            })
                         }
                         //.onTapGesture {
                             // TODO: update the State var with selected item
@@ -105,7 +113,7 @@ struct ListView: View {
                 Button(action: {
                     self.showOptions = true
                 }, label: {
-                    Image(systemName: "table.badge.more.fill").font(.title)
+                    Image(systemName: AppConfig.barShowOptions).font(.title)
             })
             )// this modificator is for present Options in modal view and the binded var is necessary to close it
             .sheet(isPresented: $showOptions){
@@ -177,12 +185,12 @@ struct CellViewTypeOne: View {
                         Spacer() // push icons view down
                         HStack {
                             if anItem.favourite {
-                                Image(systemName: "star.fill")
+                                Image(systemName: AppConfig.cellFav)
                                     .foregroundColor(.star)
                                 .padding(.bottom, 4)
                             }
                             if anItem.watched {
-                                Image(systemName: "eye.fill")
+                                Image(systemName: AppConfig.cellWatched)
                                     .foregroundColor(.eye)
                                 .padding(.bottom, 4)
                             }
@@ -192,7 +200,7 @@ struct CellViewTypeOne: View {
                             .font(.system(.subheadline, design: .rounded)).bold()
                             .padding(.vertical, 1)
                         
-                        Text(String(repeating: "", count: anItem.popularity))
+                        Text(String(repeating: AppConfig.popularityChar, count: anItem.popularity))
                             .font(.subheadline)//.fontWeight(.black)
                             .padding(.top, 1)
                         Spacer() // push icons view up to center vertically
@@ -206,6 +214,51 @@ struct CellViewTypeOne: View {
     }
 }
 
+struct CellViewTypeTwo: View {
+    
+    var anItem: AnItem
+    
+    var body: some View {
+        
+        ZStack {
+            Image(anItem.image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .cornerRadius(15)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 15)
+                        .foregroundColor(.gray)
+                        .opacity(0.55)
+            )
+
+            VStack(alignment: .leading, spacing: 1){
+                Text(anItem.author)
+                    .font(.system(.title, design: .rounded))
+                    .fontWeight(.semibold)
+                    .foregroundColor(.white)
+
+                Text(anItem.title)
+                    .font(.system(.headline, design: .rounded))
+                    .fontWeight(.regular)
+                    .foregroundColor(.white)
+                
+                Spacer()
+                HStack(alignment: .center, spacing: 5) {
+                    HStack {
+                        if anItem.favourite  { Image(systemName: AppConfig.cellFav) }
+                        if anItem.watched { Image(systemName: AppConfig.cellWatched) }
+                    }
+                    Spacer()
+                    Text(String(repeating: "", count: anItem.popularity))
+                    Text(String("| " + anItem.type))
+                }
+                .font(.system(.headline, design: .rounded))
+                .foregroundColor(.white)//(Color(.systemPink))
+            }//vstack
+            .padding()
+        }//zstack
+    }
+}
 
 // MARK: - Preview
 
