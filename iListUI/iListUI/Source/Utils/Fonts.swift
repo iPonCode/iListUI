@@ -21,9 +21,7 @@ extension UIFont {
                 } else {
                     return UIFont.preferredFont(forTextStyle: .largeTitle)
                 }
-
             }
-            
         }
         
         static var compactTitle: UIFont {
@@ -39,6 +37,18 @@ extension UIFont {
             }
         }
 
-    }
+        static var barButton: UIFont {
+            get {
+                let fontSize = UIFont.preferredFont(forTextStyle: .title3).pointSize
+                if let descriptor = UIFont.systemFont(ofSize: fontSize, weight: .bold)
+                    .fontDescriptor.withDesign(.rounded) {
+                    return UIFont(descriptor: descriptor, size: fontSize)
 
+                } else {
+                    return UIFont.preferredFont(forTextStyle: .headline)
+                }
+            }
+        }
+        
+    }
 }

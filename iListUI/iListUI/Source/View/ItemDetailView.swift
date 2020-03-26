@@ -11,6 +11,8 @@ struct ItemDetailView: View {
 
     var item: AnItem
 
+    let detailsTitle = "Detalle"
+
     var body: some View {
         
                 ScrollView {
@@ -30,7 +32,7 @@ struct ItemDetailView: View {
                                 .fontWeight(.bold)
                                 .padding()
                             
-                            Text(String(item.featured))
+                            Text(String(item.watched))
                                 .font(.system(.title, design: .rounded))
                                 .fontWeight(.bold)
                                 .padding()
@@ -59,7 +61,7 @@ struct ItemDetailView: View {
                         Spacer() // to push all the content up
                     }
                 }
-                .navigationBarTitle(Text("Detalle"), displayMode: .inline)
+                .navigationBarTitle(Text(detailsTitle), displayMode: .inline)
     }
 }
 
@@ -71,7 +73,7 @@ struct ItemDetailView_Previews: PreviewProvider {
         description: AnItemsFactory.RandomDescription(Int.random(in: 0...3)).description,
         type: "tipoD",
         popularity: 2,
-        featured: true,
+        watched: true,
         favourite: true)
         )
     }
