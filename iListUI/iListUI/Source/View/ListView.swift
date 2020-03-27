@@ -56,6 +56,8 @@ struct ListView: View {
                     .sorted(by: self.options.selectedSorting.sortingPredicate(
                         descOrder: self.options.selectedSortingOption.boolMe()))){ item in
                     //.sorted(by: self.options.selectedSorting.sortingPredicate())){ item in
+                    // Important to filter and sorted in the same way
+                    // before remove with an index (.onDelete indexSet)
 
                     ZStack {
                         VStack {
@@ -114,7 +116,7 @@ struct ListView: View {
                         }//navigation link
                     }
                 }//foreach
-                .onDelete(perform: { (indexSet) in // can delete a Set of items
+                .onDelete(perform: { (indexSet) in // with onDelete, can delete a Set of items
                     self.removeItem(itemsSet: indexSet)
                 })
             }//list
@@ -153,18 +155,30 @@ struct ListView: View {
     }
 
     func removeItem(item: AnItem) { // remove an item
+        
         someItems.removeAll(where: { anItem in
             anItem.id == item.id
         })
 //        if let index = self.someItems.firstIndex(where: {$0.id == item.id}){
 //            self.someItems.remove(at: index)
 //        }
-        print("Remove tapped")
     }
 
     func removeItem(itemsSet: IndexSet) { // remove from .onDelete with and indexSet
-        someItems.remove(atOffsets: itemsSet)
-        print("Remove swiped")
+        
+        // When using an index need to filter and sort array previously
+        // >> exactly in the same way that are displayed <<
+        var itemsWithCurrentFilters = self.someItems
+            .filter(shouldShowItem)
+            .sorted(by: self.options.selectedSorting.sortingPredicate(
+                descOrder: self.options.selectedSortingOption.boolMe()))
+        
+//        itemsSet.forEach { index in
+//            itemsWithCurrentFilters.remove(at: index)
+//        }
+        itemsWithCurrentFilters.remove(atOffsets: itemsSet)
+
+        self.someItems = itemsWithCurrentFilters
     }
 
     private func shouldShowItem(_ item: AnItem) -> Bool {
