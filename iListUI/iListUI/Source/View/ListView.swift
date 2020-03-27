@@ -68,7 +68,7 @@ struct ListView: View {
                         .contextMenu{
                             
                             Button(action: { // watched
-                                self.toggleWatched(item: item)
+                                self.toggle(item, type: .watched)
                             }, label: {
                                 HStack{
                                     Text(item.watched ? "Marcar como no visto" : "Visto")
@@ -77,7 +77,7 @@ struct ListView: View {
                             })
                             
                             Button(action: { // favourite
-                                self.toggleFavourite(item: item)
+                                self.toggle(item, type: .favourite)
                             }, label: {
                                 HStack{
                                     Text(item.favourite ? "Quitar favorito" : "Favorito")
@@ -86,7 +86,7 @@ struct ListView: View {
                             })
                             
                             Button(action: { // feature
-                                self.toggleFeatured(item: item)
+                                self.toggle(item, type: .featured)
                             }, label: {
                                 HStack{
                                     Text(item.favourite ? "No destacar" : "Destacar")
@@ -135,16 +135,21 @@ struct ListView: View {
         
     }
     
-    func toggleFavourite(item: AnItem) {
-        print("Favourite tapped")
+    enum ToggleType {
+        case watched
+        case favourite
+        case featured
     }
-
-    func toggleWatched(item: AnItem) {
-        print("Watched tapped")
-    }
-
-    func toggleFeatured(item: AnItem) {
-        print("Featured tapped")
+    
+    func toggle(_ item: AnItem, type: ToggleType) {
+        
+        if let index = self.someItems.firstIndex(where: { $0.id == item.id }) {
+            switch type {
+                case .watched: someItems[index].watched.toggle()
+                case .favourite: someItems[index].favourite.toggle()
+                case .featured: someItems[index].featured.toggle()
+            }
+        }
     }
 
     func removeItem(item: AnItem) { // remove an item
