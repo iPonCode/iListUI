@@ -59,7 +59,7 @@ enum SortingType: Int, CaseIterable { // Needs to iterate over allcases using a 
         }
     }
     
-    func sorted() -> ((AnItem, AnItem) -> Bool){
+    func sortingPredicate() -> ((AnItem, AnItem) -> Bool){
         
         switch self {
             case .alphabetical:
@@ -71,7 +71,7 @@ enum SortingType: Int, CaseIterable { // Needs to iterate over allcases using a 
             case .popularity:
                 return {$0.popularity < $1.popularity}
             case .watched:
-                return {$0.title < $1.title}
+                return {$0.watched && !$1.watched}
             case .favourite:
                 return {$0.favourite && !$1.favourite}
             case .featured:
@@ -79,7 +79,7 @@ enum SortingType: Int, CaseIterable { // Needs to iterate over allcases using a 
         }
     }
     
-    func sorted(descOrder: Bool = true) -> ((AnItem, AnItem) -> Bool){
+    func sortingPredicate(descOrder: Bool = true) -> ((AnItem, AnItem) -> Bool){
         
         switch self {
             case .alphabetical:
@@ -91,7 +91,7 @@ enum SortingType: Int, CaseIterable { // Needs to iterate over allcases using a 
             case .popularity:
                 return descOrder ? {$0.popularity < $1.popularity} : {$0.popularity > $1.popularity}
             case .watched:
-                return descOrder ? {$0.title < $1.title} : {$0.title > $1.title}
+                return descOrder ? {$0.watched && !$1.watched} : {!$0.watched && $1.watched}
             case .favourite:
                 return descOrder ? {$0.favourite && !$1.favourite} : {!$0.favourite && $1.favourite}
             case .featured:

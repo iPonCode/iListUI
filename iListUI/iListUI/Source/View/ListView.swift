@@ -13,6 +13,8 @@ struct ListView: View {
     
     @State var someItems = AnItemsFactory.someItems
     
+    @EnvironmentObject var options: OptionsFactory
+    
     let listTitle = "Items super chulos!"
     
     // For the time being, it is still necessary to configure appearance for Navigation Bar
@@ -49,15 +51,16 @@ struct ListView: View {
             
             List{ // need a ForEach instead directly a List to implement onDelete
                 
-                ForEach(someItems){ item in
-                    
-                    ZStack {
-                        
-                        VStack {
+                ForEach(someItems
+                    .filter(shouldShowItem)
+                    .sorted(by: self.options.selectedSorting.sortingPredicate(
+                        descOrder: self.options.selectedSortingOption.boolMe()))){ item in
+                    //.sorted(by: self.options.selectedSorting.sortingPredicate())){ item in
 
+                    ZStack {
+                        VStack {
                             if item.featured {
                                 CellViewTypeTwo(anItem: item)
-                                
                             } else {
                                 CellViewTypeOne(anItem: item)
                             }
@@ -100,8 +103,7 @@ struct ListView: View {
                                 }
                             })
                         }
-                        //.onTapGesture {
-                            // TODO: update the State var with selected item
+                        //.onTapGesture { // now using a navigation link
                         //}
 
                         // this is the only way (right now) to remove or do not show the
@@ -126,7 +128,7 @@ struct ListView: View {
             })
             )// this modificator is for present Options in modal view and the binded var is necessary to close it
             .sheet(isPresented: $showOptions){
-                OptionsView()
+                OptionsView().environmentObject(self.options) // dependency injection
             }
             
         }//navigation view
@@ -159,6 +161,15 @@ struct ListView: View {
         someItems.remove(atOffsets: itemsSet)
         print("Remove swiped")
     }
+
+    private func shouldShowItem(_ item: AnItem) -> Bool {
+        let checkWatched = (self.options.showWatchedOnly && item.watched) || !self.options.showWatchedOnly
+        let checkFavourite = (self.options.showFavouriteOnly && item.favourite) || !self.options.showFavouriteOnly
+        let checkFeatured = (self.options.showFeaturedOnly && item.featured) || !self.options.showFeaturedOnly
+        let checkPopularity = (item.popularity <= self.options.maxPopularity)
+        return checkWatched && checkFavourite && checkFeatured && checkPopularity
+    }
+   
 }
 
 // MARK: - Cell Views
@@ -277,6 +288,6 @@ struct CellViewTypeTwo: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ListView()
+        ListView().environmentObject(OptionsFactory()) // dependency injection
     }
 }

@@ -11,10 +11,11 @@ struct OptionsView: View {
 
     @Environment(\.presentationMode) var presentationMode
     
+    @EnvironmentObject var options: OptionsFactory
+
     // set default values
     @State private var selectedSorting = SortingType.alphabetical
     @State private var selectedSortingOption = SortingOptionType.descending
-    @State private var descOrder = true
     @State private var showWatchedOnly = false
     @State private var showFavouriteOnly = false
     @State private var showFeaturedOnly = false
@@ -86,8 +87,15 @@ struct OptionsView: View {
                         .font(.title)
                 }),
                 trailing: Button(action: { // right button
-                    
-                // TODO: Save values, update EnvironmentObject
+                
+                // Save Options
+                self.options.selectedSorting = self.selectedSorting
+                self.options.selectedSortingOption = self.selectedSortingOption
+                self.options.showWatchedOnly = self.showWatchedOnly
+                self.options.showFavouriteOnly = self.showFavouriteOnly
+                self.options.showFeaturedOnly = self.showFeaturedOnly
+                self.options.maxPopularity = self.maxPopularity
+
                 self.presentationMode.wrappedValue.dismiss() // close view
                 }, label: {
                     Image(systemName: "rectangle.fill.badge.checkmark")
@@ -96,11 +104,20 @@ struct OptionsView: View {
             )
         
         }//navigation view
+        .onAppear { // Load saved options
+            self.selectedSorting = self.options.selectedSorting
+            self.selectedSortingOption = self.options.selectedSortingOption
+            self.showWatchedOnly = self.options.showWatchedOnly
+            self.showFavouriteOnly = self.options.showFavouriteOnly
+            self.showFeaturedOnly = self.options.showFeaturedOnly
+            self.maxPopularity = self.options.maxPopularity
+        }
+
     }
 }
 
 struct OptionsView_Previews: PreviewProvider {
     static var previews: some View {
-        OptionsView()
+        OptionsView().environmentObject(OptionsFactory())
     }
 }
